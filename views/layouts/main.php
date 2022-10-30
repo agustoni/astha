@@ -21,11 +21,16 @@ AppAsset::register($this);
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 </head>
 <style>
     .container{padding: 35px 15px 20px!important;}
+    body {color:#fff;}
+    .input-bid{border-width: 2px !important;border-color: #fff !important;background-color:rgb(86, 125, 106); color:#fff;}
+    .input-bid::placeholder {color: #fff;opacity: 1;}
+    .footer-section{font-size: 8px;}
 </style>
-<body class="d-flex flex-column h-100">
+<body class="d-flex flex-column h-100" style="background-color:rgb(86, 125, 106)">
 <?php $this->beginBody() ?>
 
 <!-- <header>

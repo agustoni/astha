@@ -1,75 +1,83 @@
 <div class="row" id="bidding-form">
 	<div class="offset-sm-2 offset-md-2 offset-lg-3 offset-xl-3 col-12 col-sm-8 col-md-8 col-lg-6 col-xl-6">
 		<center>
-			<!-- <span class="font-weight-bold" style="font-size: 2em">ASHTA</span><br>
-			<span style="font-size: 1em">DISTRICT 8</span> -->
-			<img class="img-fluid" src="../web/img/ASHTA Lockup Black.png">
-
-			<h2>
-				NAMA ITEM<br>
-				Last Bid<br>
-				Rp <?= number_format($model ? $model->bid : 0, 0, "", ".") ?>
-			</h2>
-
-			<span>Put your bid min Rp <?= number_format("500000",0,"",".") ?> above last bid</span>
+			<img class="img-fluid" src="../web/img/ASHTA Lockup White.png">
 		</center>
 
-		<form method="POST" action="item-a">
+		<h2 class="mb-5">NAMA ITEM</h2>
+		<span class="mr-4">Current Bid</span> <span style="font-size:23px">Rp <?= number_format($model ? $model->bid : 0, 0, "", ".") ?></span>		
+
+		<form method="POST" action="item-a" class="mt-5">
 			<input type="hidden" name="<?= Yii::$app->request->csrfParam; ?>" value="<?= Yii::$app->request->csrfToken; ?>" />
-			<table class="table-borderless mt-3 mx-auto">
+			<div class="row my-2">
+				<div class="col-12">
+					<input id="input-name" name="name" style=""class="form-control input-bid" placeholder="Name" required>
+				</div>
+			</div>
+
+			<div class="row my-2">
+				<div class="col-12">
+					<input id="input-phone" name="phone" class="form-control isNumber input-bid" placeholder="Phone Number" required>
+				</div>
+			</div>
+
+			<div class="row my-2">
+				<div class="col-12">
+					<input id="input-bid" name="bid"  class="form-control isNumber input-bid" placeholder="Bid Amount" required>
+					<small>Place bid at least Rp 500.000 above current bid</small>
+				</div>
+			</div>
+
+			<center>
+				<button id="btn-submit" type="submit" class="btn btn-light border-secondary mt-5  mb-5" name="submit" style="width: 120px"><b>Place Bid</b></button>
+			</center>
+		</form>
+
+		<div class="row mt-5 footer-section">
+			<table class="table table-borderless">
 				<tr>
-					<th style="padding-right:5%;width: 40%">Name</th>
-					<td>
-						<input id="input-name" name="name" style="border-width: 2px !important;"class="form-control border-secondary" required>
+					<td style="width: 40%;" class="">
+						<i class="fa-brands fa-instagram text-white"></i>
+						<i class="fa-brands fa-square-facebook text-white"></i>
+						<i class="fa-brands fa-youtube text-white"></i>
+						<span class="text-white">@ASTHADISTRICT8 | ASTHA.CO.ID</span>
 					</td>
-				</tr>
-				<tr>
-					<th style="padding-right:5%;width: 40%">Phone Number</th>
-					<td>
-						<input id="input-phone" name="phone" style="border-width: 2px !important;"class="form-control border-secondary isNumber" required>
+					<td style="width: 40%" class="text-center text-white">
+						SUPPORTED BY<br><br>
+						<img class="img-fluid float-left px-1" style="max-width:50px" src="../web/img/habitat 250.png">
+						<img class="img-fluid float-left px-1" style="max-width:50px" src="../web/img/rebricks 250.png">
+						<img class="img-fluid float-left px-1" style="max-width:50px" src="../web/img/jangjo 250.png">
 					</td>
-				</tr>
-				<tr>
-					<th style="padding-right:5%;width: 40%">Bid</th>
-					<td>
-						<input id="input-bid" name="bid" style="border-width: 2px !important;" class="form-control border-secondary isNumber" required>
+					<td class="text-center text-white" style="width: 10%;">
+						POWERED BY<br><br>
+						<img class="img-fluid" style="max-width:60px" src="../web/img/asri living 250.png">
+					</td>
+					<td class="text-center text-white" style="width: 10%;">
+						A PROJECT OF<br><br>
+						<img class="img-fluid" style="max-width:60px" src="../web/img/asri 250.png">
 					</td>
 				</tr>
 			</table>
-
-			<center>
-				<input id="btn-submit" style="border-width: 3px !important;" type="submit" class="btn btn-light border-secondary mt-4" name="submit">
-			</center>
-		</form>
+		</div>
 	</div>
 </div>
 <script>
 	var bid = <?= $model ? $model->bid : 0 ?>;
+	var min_bid = parseInt(bid) + 500000
 
 	$("#btn-submit").click(function(){
 		var input_bid = $('#input-bid').val() ? $('#input-bid').val() : 0
 
-		if(input_bid >= 500000){
-			if(input_bid <= bid){
-				alert('Bid value must be higher than the last bid')
+		if(input_bid > 0){
+			if(input_bid < min_bid){
+				alert('Bid amount min Rp '+formatNumber(min_bid))
 				return false
 			}
 		}else{
-			alert('Bid value min Rp 500.000')
+			alert('Bid amount min Rp 500.000')
 			return false
 		}
 	})
-
-	// $('#bidding-form').on('keypress', '#input-phone', function (evt){
- //        evt = (evt) ? evt : window.event
- //        var charCode = (evt.which) ? evt.which : evt.keyCode
-
- //        if (charCode != 43 && (charCode < 48 || charCode > 57)) {
- //            return false
- //        }
-
- //        return true
- //    })
 
 	$('#bidding-form').on('keypress', '.isNumber', function (evt){
         evt = (evt) ? evt : window.event
@@ -81,4 +89,8 @@
 
         return true
     })
+
+    function formatNumber(num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+    }
 </script>
